@@ -11,7 +11,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="rightDrawerOpen" side="right" show-if-above bordered class="drawer">
+    <q-drawer v-model="rightDrawerOpen" side="right" bordered class="drawer">
       <q-list>
         <q-item clickable @click="navigateTo('/uas')" class="drawer-item">
           <q-item-section>UAS</q-item-section>
@@ -58,6 +58,7 @@ export default {
     };
 
     const navigateTo = (path) => {
+      rightDrawerOpen.value = false; // Tutup drawer setelah navigasi
       router.push(path);
     };
 
