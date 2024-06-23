@@ -11,28 +11,28 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="rightDrawerOpen" side="right" show-if-above bordered v-if="rightDrawerOpen">
+    <q-drawer v-model="rightDrawerOpen" side="right" show-if-above bordered class="drawer">
       <q-list>
-        <q-item clickable @click="goToTugas1">
+        <q-item clickable @click="navigateTo('/uas')" class="drawer-item">
+          <q-item-section>UAS</q-item-section>
+        </q-item>
+        <q-item clickable @click="navigateTo('/tugas1')" class="drawer-item">
           <q-item-section>Tugas 1</q-item-section>
         </q-item>
-        <q-item clickable @click="goToTugas2">
+        <q-item clickable @click="navigateTo('/tugas2')" class="drawer-item">
           <q-item-section>Tugas 2</q-item-section>
         </q-item>
-        <q-item clickable @click="goToTugas3">
+        <q-item clickable @click="navigateTo('/tugas3')" class="drawer-item">
           <q-item-section>Tugas 3</q-item-section>
         </q-item>
-        <q-item clickable @click="goToTugas4">
+        <q-item clickable @click="navigateTo('/tugas4')" class="drawer-item">
           <q-item-section>Tugas 4</q-item-section>
         </q-item>
-        <q-item clickable @click="goToTugas5">
+        <q-item clickable @click="navigateTo('/tugas5')" class="drawer-item">
           <q-item-section>Tugas 5</q-item-section>
         </q-item>
-        <q-item clickable @click="goToTugas6">
+        <q-item clickable @click="navigateTo('/tugas6')" class="drawer-item">
           <q-item-section>Tugas 6</q-item-section>
-        </q-item>
-        <q-item clickable @click="$router.push('/uas')">
-          <q-item-section>UAS</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -44,57 +44,30 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 export default {
   name: 'App',
-  data() {
-    return {
-      rightDrawerOpen: false
+  setup() {
+    const rightDrawerOpen = ref(false);
+    const router = useRouter();
+
+    const toggleRightDrawer = () => {
+      rightDrawerOpen.value = !rightDrawerOpen.value;
     };
-  },
-  methods: {
-    toggleRightDrawer() {
-      this.rightDrawerOpen = !this.rightDrawerOpen;
-    },
-    goToTugas1() {
-      window.location.href = this.tugas1Url;
-    },
-    goToTugas2() {
-      window.location.href = this.tugas2Url;
-    },
-    goToTugas3() {
-      window.location.href = this.tugas3Url;
-    },
-    goToTugas4() {
-      window.location.href = this.tugas4Url;
-    },
-    goToTugas5() {
-      window.location.href = this.tugas5Url;
-    },
-    goToTugas6() {
-      window.location.href = this.tugas6Url;
-    },
-  },
-  computed: {
-    tugas1Url() {
-      return 'https://aldopratama-cv.netlify.app';
-    },
-    tugas2Url() {
-      return 'https://tugass2.netlify.app';
-    },
-    tugas3Url() {
-      return 'https://t3-pbk-223510115.netlify.app';
-    },
-    tugas4Url() {
-      return 'https://prakt3.netlify.app';
-    },
-    tugas5Url() {
-      return 'https://aldopratama.netlify.app';
-    },
-    tugas6Url() {
-      return 'https://t6-aldo.netlify.app';
-    },
+
+    const navigateTo = (path) => {
+      router.push(path);
+    };
+
+    return {
+      rightDrawerOpen,
+      toggleRightDrawer,
+      navigateTo
+    };
   }
-}
+};
 </script>
 
 <style>
@@ -106,11 +79,22 @@ export default {
   color: #2c3e50;
 }
 .header {
-  background-color: #333;
-  color: white;
+  background-color: #1e1e1e;
+  color: #ffffff;
 }
 .logo {
   font-size: 24px;
   font-weight: bold;
+}
+.drawer {
+  background-color: #f4f4f4;
+}
+.drawer-item {
+  font-size: 16px;
+  color: #333;
+  transition: background-color 0.3s;
+}
+.drawer-item:hover {
+  background-color: #e0e0e0;
 }
 </style>

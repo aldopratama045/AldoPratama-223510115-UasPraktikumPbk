@@ -24,41 +24,50 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import axios from 'axios';
 
 export default {
   name: 'WeatherWidget',
-  data() {
-    return {
-      lokasi: '',
-      namaLokasi: '',
-      deskripsiCuaca: '',
-      temperatur: null,
-      memuat: false,
-      dataDiambil: false
-    };
-  },
-  methods: {
-    async ambilDataCuaca() {
-      this.memuat = true;
-      this.dataDiambil = false;
-      this.namaLokasi = '';
-      this.deskripsiCuaca = '';
-      this.temperatur = null;
+  setup() {
+    const lokasi = ref('');
+    const namaLokasi = ref('');
+    const deskripsiCuaca = ref('');
+    const temperatur = ref(null);
+    const memuat = ref(false);
+    const dataDiambil = ref(false);
+
+    const ambilDataCuaca = async () => {
+      memuat.value = true;
+      dataDiambil.value = false;
+      namaLokasi.value = '';
+      deskripsiCuaca.value = '';
+      temperatur.value = null;
+
       try {
         const apiKey = 'c143780b0583857a4f7f630626278d43'; 
-        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${this.lokasi}&appid=${apiKey}&units=metric`;
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${lokasi.value}&appid=${apiKey}&units=metric`;
         const response = await axios.get(apiUrl);
-        this.namaLokasi = response.data.name;
-        this.deskripsiCuaca = response.data.weather[0].description;
-        this.temperatur = response.data.main.temp;
+        namaLokasi.value = response.data.name;
+        deskripsiCuaca.value = response.data.weather[0].description;
+        temperatur.value = response.data.main.temp;
       } catch (error) {
         console.error(error);
       } finally {
-        this.memuat = false;
-        this.dataDiambil = true;
+        memuat.value = false;
+        dataDiambil.value = true;
       }
-    }
+    };
+
+    return {
+      lokasi,
+      namaLokasi,
+      deskripsiCuaca,
+      temperatur,
+      memuat,
+      dataDiambil,
+      ambilDataCuaca
+    };
   }
 };
 </script>
